@@ -1,10 +1,10 @@
 import logging
-from random import randrange
 import random
+from random import randrange
 from uuid import uuid4
+
 from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent, Update
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler, CallbackContext
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, InlineQueryHandler, CallbackContext
 
 # Enable logging
 logging.basicConfig(
@@ -23,8 +23,8 @@ bra = [
 ]
 
 
-def sizer_cock():
-    size = randrange(51)
+def sizer_cock(min=1, max=41):
+    size = randrange(min, max)
     type = random.choice(['cm', 'cm'])
     if size >= 15:
         emoji = random.choice(['😏', '😱', '😂', '😁'])
@@ -74,9 +74,10 @@ def homo_sexual():
     return text
 
 
+def big_dick():
+    return sizer_cock(21, 41)
+
 def inlinequery(update: Update, _: CallbackContext):
-    print('sdfsdfsd')
-    print(_)
     results = [
         InlineQueryResultArticle(
             id=str(uuid4()),
@@ -103,6 +104,16 @@ def inlinequery(update: Update, _: CallbackContext):
             input_message_content=InputTextMessageContent(homo_sexual(), parse_mode=ParseMode.HTML),
         ),
     ]
+
+    if update.effective_user.username == 'proslau' or update.effective_user.username == 'igoryanchuk' or update.effective_user.username == 'aaronemma':
+        results.append(
+            InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="BIG DICK",
+                thumb_url='https://pbs.twimg.com/profile_images/1405463577239166978/leWJXHOi_400x400.jpg',
+                input_message_content=InputTextMessageContent(big_dick(), parse_mode=ParseMode.HTML),
+            ),
+        )
 
     update.inline_query.answer(results, cache_time=0)
 
